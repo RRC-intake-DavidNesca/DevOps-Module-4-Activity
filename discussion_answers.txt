@@ -1,0 +1,38 @@
+COMP-4001 DevOps - Module 4 Class Activity 1 Discussion Answers
+Name: David Nesca
+Student number: 0436080
+
+Why is gunicorn used instead of Flask's built-in server in the Dockerfile?
+Gunicorn is used because it is a production-ready WSGI server. Flask's built-in server
+is mainly for local development and testing. Gunicorn is a better choice inside the
+container because it handles real web requests more properly.
+
+How does the .dockerignore file improve the Docker build process?
+The .dockerignore file keeps files like __pycache__, virtual environments, logs, and
+.git out of the Docker build context. This makes the build smaller, faster, and cleaner.
+
+What role does the socket module play in retrieving the container's IP address?
+The socket module gets the container hostname and then resolves it to an IP address.
+The app uses that value in the greeting so I can see the IP address from inside the container.
+
+Why is running the container as a non-root user important?
+Running as a non-root user is safer. If something goes wrong in the app, the process has
+fewer permissions inside the container than it would have as root.
+
+Why is the IP address displayed different from the host machine or private IP address?
+The container gets its own internal Docker network address. The VM has the private IP
+192.168.56.66, but the container usually gets an internal bridge-network IP such as 172.x.x.x.
+
+Why might peers get different container IP addresses?
+Docker assigns container IP addresses dynamically. Different computers, VMs, and container
+start orders can produce different internal IP addresses.
+
+Why did we log into Docker?
+The activity has us log in so Docker can authenticate the user with Docker Hub. This is
+useful when pulling base images from Docker Hub or later pushing our own images.
+
+Best practice explanation to submit:
+One best practice I used is dependency caching. The Dockerfile copies requirements.txt
+first and installs the Python packages before copying the rest of the source code. If I
+change only the application code, Docker can reuse the dependency layer and rebuild faster.
+Another good practice is running as appuser instead of root, which is safer.
